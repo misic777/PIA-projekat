@@ -1,0 +1,50 @@
+[
+  {
+    "korisnicko_ime": "ana",
+    "lozinka": "Ana123.",
+	"tip": "turista",
+    "ime": "Ana",
+    "prezime": "Anicic",
+	"pol" : "Z",
+	"kontakt_telefon" : "065239229",
+    "email": "ana@gmail.com",
+	"profilna_slika" : "insertPath",
+	"broj_kreditne_kartice" : "4916234567891234"
+  },
+  {
+    "korisnicko_ime": "marko",
+    "lozinka": "Marko321.",
+	"tip": "turista",
+    "ime": "Marko",
+    "prezime": "Markovic",
+	"pol" : "M",
+	"kontakt_telefon" : "062987345",
+    "email": "marko@gmail.com",
+	"profilna_slika" : "insertPath",
+	"broj_kreditne_kartice" : "4716225490764532"
+  },
+  {
+    "korisnicko_ime": "nikola",
+    "lozinka": "Nikola777.",
+	"tip": "admin",
+    "ime": "Nikola",
+    "prezime": "Nikolic",
+	"pol" : "M",
+	"kontakt_telefon" : "066490780",
+    "email": "nikola@gmail.com",
+	"profilna_slika" : "insertPath",
+	"broj_kreditne_kartice" : "3007876234456434"
+  },
+  {
+    "korisnicko_ime": "jelena",
+    "lozinka": "Jelena123.",
+	"tip": "turista",
+    "ime": "Jelena",
+    "prezime": "Jankovic",
+	"pol" : "Z",
+	"kontakt_telefon" : "0603004565",
+    "email": "jeca@gmail.com",
+	"profilna_slika" : "insertPath",
+	"broj_kreditne_kartice" : "5500342278775643"
+  }
+]
