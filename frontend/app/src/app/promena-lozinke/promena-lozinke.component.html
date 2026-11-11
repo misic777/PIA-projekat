@@ -1,0 +1,63 @@
+<div class="promena-lozinke-page">
+  <header class="top-header">
+    <h1>Promena lozinke</h1>
+    <button (click)="goBack()" class="link-back-header">← Nazad na prijavu</button>
+  </header>
+
+  <div class="form-container">
+    <div class="form-card">
+      <div class="form-header">
+        <h2>Unesite novu lozinku</h2>
+        <p>Lozinka mora imati 6-10 karaktera</p>
+      </div>
+
+      <form>
+        <div class="form-group">
+          <label for="nova-lozinka">Nova lozinka</label>
+          <input
+            type="password"
+            id="nova-lozinka"
+            class="form-control"
+            placeholder="Unesite novu lozinku"
+            [(ngModel)]="novaLozinka"
+            name="novaLozinka"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="potvrda-lozinke">Potvrdi novu lozinku</label>
+          <input
+            type="password"
+            id="potvrda-lozinke"
+            class="form-control"
+            placeholder="Potvrdite novu lozinku"
+            [(ngModel)]="potvrdaLozinke"
+            name="potvrdaLozinke"
+            required
+          />
+        </div>
+
+        <div class="password-requirements">
+          <p class="requirements-title">Zahtevi za lozinku:</p>
+          <ul>
+            <li>6-10 karaktera</li>
+            <li>Počinje slovom</li>
+            <li>Bar jedno veliko slovo</li>
+            <li>Bar tri mala slova</li>
+            <li>Bar jedan broj</li>
+            <li>Bar jedan specijalni karakter</li>
+          </ul>
+        </div>
+
+        <button type="button" (click)="promeniLozinku()" class="btn-submit">
+          Promeni lozinku
+        </button>
+
+        <div *ngIf="message" class="error-message">
+          {{ message }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

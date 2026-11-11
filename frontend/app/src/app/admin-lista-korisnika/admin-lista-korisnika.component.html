@@ -1,0 +1,23 @@
+<h2>Lista korisnika</h2>
+
+@if (aktivniKorisnici.length === 0) {
+  <div class="empty-state">
+    <p>Nema korisnika u sistemu.</p>
+  </div>
+}
+
+<div class="korisnici-grid">
+  @for (item of aktivniKorisnici; track $index) {
+    <div class="korisnik-card">
+      <div class="card-body">
+        <h3>{{ item.ime }} {{item.prezime}}</h3>
+        <p class="email">{{ item.email }}</p>
+      </div>
+      
+      <div class="card-actions">
+        <button class="btn-edit" (click)="azurirajKorisnika(item)">Ažuriraj</button>
+        <button class="btn-delete" (click)="deaktivirajKorisnika(item._id)">Deaktiviraj</button>
+      </div>
+    </div>
+  }
+</div>

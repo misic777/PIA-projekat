@@ -1,0 +1,48 @@
+<h2>Moje vikendice</h2>
+
+<button class="btn-add" (click)="dodajNovu()">
+  + Dodaj novu vikendicu
+</button>
+
+@if (mojeVikendice.length === 0) {
+  <div class="empty-state">
+    <p>Još uvek nemate dodate vikendice.</p>
+  </div>
+}
+
+<div class="vikendice-grid">
+  @for (item of mojeVikendice; track $index) {
+    <div class="vikendica-card">
+      @if (item.slike && item.slike.length > 0) {
+        <div class="card-image">
+          <img [src]="'http://localhost:4000/vikendice/'+ item.naziv  +'/'+ item.slike[0]" alt="Slika vikendice">
+        </div>
+      }
+
+      <div class="card-body">
+        <h3>{{ item.naziv }}</h3>
+        <p class="location">📍 {{ item.mesto }}</p>
+        
+        @if (item.opis) {
+          <p class="description">{{ item.opis }}</p>
+        }
+        
+        <div class="price-info">
+          <div class="price-item">
+            <span class="season">☀️ Leto:</span>
+            <span class="price">{{ item.cena_leto }} RSD</span>
+          </div>
+          <div class="price-item">
+            <span class="season">❄️ Zima:</span>
+            <span class="price">{{ item.cena_zima }} RSD</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-edit" (click)="uredi(item)">Uredi</button>
+        <button class="btn-delete" (click)="obrisi(item)">Obriši</button>
+      </div>
+    </div>
+  }
+</div>

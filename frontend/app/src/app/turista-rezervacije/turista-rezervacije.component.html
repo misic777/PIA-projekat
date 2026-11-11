@@ -1,0 +1,99 @@
+<div class="turista-rezervacije-page">
+  <h2>Moje rezervacije</h2>
+
+  <!-- Trenutne rezervacije -->
+  <section class="rezervacije-section">
+    <h3 class="section-title">
+      <span class="title-icon">📅</span>
+      Trenutne rezervacije
+    </h3>
+
+    <div *ngIf="trenutneRezervacije.length === 0" class="empty-state">
+      <p>Nemate trenutnih rezervacija.</p>
+    </div>
+
+    <div *ngIf="trenutneRezervacije.length > 0" class="rezervacije-grid">
+      <div *ngFor="let rezervacija of trenutneRezervacije" class="rezervacija-card">
+        <div class="rezervacija-header">
+          <h4>{{ rezervacija.nazivVikendice }}</h4>
+          @if (rezervacija.status === 'potvrdjena') {
+            <span class="status-badge status-potvrdjena">Potvrdjena</span>
+          } @else if (rezervacija.status === 'naCekanju') {
+            <span class="status-badge status-naCekanju">Na čekanju</span>
+          }
+        </div>
+
+        <div class="rezervacija-info">
+          <div class="info-row">
+            <span class="info-label">📍 Mesto:</span>
+            <span class="info-value">{{ rezervacija.mestoVikendice }}</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">📅 Dolazak:</span>
+            <span class="info-value">{{ rezervacija.datumPocetka | date: 'dd/MM/yyyy' }}</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">📅 Odlazak:</span>
+            <span class="info-value">{{ rezervacija.datumKraja | date: 'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+
+        <div class="rezervacija-actions">
+          <button class="btn-cancel" (click)="otkaziRezervaciju(rezervacija._id)">
+            Otkaži rezervaciju
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Arhiva rezervacija -->
+  <section class="rezervacije-section">
+    <h3 class="section-title">
+      <span class="title-icon">📚</span>
+      Arhiva rezervacija
+    </h3>
+
+    <div *ngIf="arhivaRezervacija.length === 0" class="empty-state">
+      <p>Nemate arhiviranih rezervacija.</p>
+    </div>
+
+    <div *ngIf="arhivaRezervacija.length > 0" class="rezervacije-grid">
+      <div *ngFor="let rezervacija of arhivaRezervacija" class="rezervacija-card archived">
+        <div class="rezervacija-header">
+          <h4>{{ rezervacija.nazivVikendice }}</h4>
+          <span class="status-badge status-arhiva">Završeno</span>
+        </div>
+
+        <div class="rezervacija-info">
+          <div class="info-row">
+            <span class="info-label">📍 Mesto:</span>
+            <span class="info-value">{{ rezervacija.mestoVikendice }}</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">📅 Dolazak:</span>
+            <span class="info-value">{{ rezervacija.datumPocetka | date: 'dd/MM/yyyy' }}</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">📅 Odlazak:</span>
+            <span class="info-value">{{ rezervacija.datumKraja | date: 'dd/MM/yyyy' }}</span>
+          </div>
+
+          <div *ngIf="rezervacija.ocena" class="info-row">
+            <span class="info-label">⭐ Ocena:</span>
+            <span class="info-value rating-value">{{ rezervacija.ocena }} / 5</span>
+          </div>
+
+          <div *ngIf="rezervacija.komentar" class="komentar-box">
+            <span class="info-label">💬 Komentar:</span>
+            <p>{{ rezervacija.komentar }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

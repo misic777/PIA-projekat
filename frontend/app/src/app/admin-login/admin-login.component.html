@@ -1,0 +1,51 @@
+<div class="login-page">
+  <header class="top-header">
+    <h1>🏔️Planinska Vikendica </h1>
+    <a (click)="goBack()" class="link-back-header">← Nazad na početnu</a>
+  </header>
+
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <h2>Administratorska prijava</h2>
+        <p>Prijavite se na sistem</p>
+      </div>
+
+      <form>
+        <div class="form-group">
+          <label for="korisnicko_ime">Korisničko ime</label>
+          <input
+            type="text"
+            id="korisnicko_ime"
+            [(ngModel)]="this.username"
+            name="korisnicko_ime"
+            class="form-control"
+            placeholder="Unesite korisničko ime"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="lozinka">Lozinka</label>
+          <input
+            type="password"
+            id="lozinka"
+            [(ngModel)]="this.password"
+            name="lozinka"
+            class="form-control"
+            placeholder="Unesite lozinku"
+            required
+          />
+        </div>
+
+        <button type="submit" (click)="login()" class="btn-login">
+          Prijavi se
+        </button>
+
+        <div *ngIf="message" class="error-message">
+          {{ message }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

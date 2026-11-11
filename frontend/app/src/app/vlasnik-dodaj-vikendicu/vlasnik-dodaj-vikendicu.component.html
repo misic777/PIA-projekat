@@ -1,0 +1,107 @@
+<div class="forma-container">
+  <div class="forma-header">
+    <h2>Dodaj novu vikendicu</h2>
+  </div>
+
+  <div class="forma-body">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Naziv vikendice*</label>
+        <input 
+          type="text" 
+          [(ngModel)]="novaVikendica.naziv" 
+          placeholder="Npr. Vila Sunce"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Mesto*</label>
+        <input 
+          type="text" 
+          [(ngModel)]="novaVikendica.mesto" 
+          placeholder="Npr. Zlatibor"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Telefon*</label>
+        <input 
+          type="tel" 
+          [(ngModel)]="novaVikendica.telefon" 
+          placeholder="Npr. 061/234-567"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Broj gostiju</label>
+        <input 
+          type="number" 
+          [(ngModel)]="novaVikendica.maksGosti" 
+          placeholder="Npr. 6"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Cena leto (RSD/noć)*</label>
+        <input 
+          type="number" 
+          [(ngModel)]="novaVikendica.cena_leto" 
+          placeholder="5000"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Cena zima (RSD/noć)*</label>
+        <input 
+          type="number" 
+          [(ngModel)]="novaVikendica.cena_zima" 
+          placeholder="7000"
+        >
+      </div>
+
+      <div class="form-group full-width">
+        <label>Opis</label>
+        <textarea 
+          [(ngModel)]="novaVikendica.opis" 
+          rows="3" 
+          placeholder="Opišite vikendicu..."
+        ></textarea>
+      </div>
+
+      <div class="form-group full-width">
+        <label>Usluge</label>
+        <textarea 
+          [(ngModel)]="novaVikendica.usluge" 
+          rows="4" 
+          placeholder="Npr. WiFi, klima, parking, đakuzi..."
+        ></textarea>
+      </div>
+
+      <div class="form-group full-width">
+        <label>Slike vikendice* (maksimalno 5, max 2MB po slici)</label>
+        <input 
+          type="file" 
+          (change)="onSlikeSelected($event)" 
+          accept="image/jpeg,image/png" 
+          multiple
+        >
+        
+        <div class="preview-container" *ngIf="previewSlike.length > 0">
+          <div class="preview-item" *ngFor="let preview of previewSlike; let i = index">
+            <img [src]="preview" alt="Preview">
+            <button type="button" class="btn-remove-img" (click)="ukloniSliku(i)">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="message">
+      {{ message }}
+    </div>
+
+    <div class="forma-actions">
+      <button type="button" class="btn-cancel" (click)="otkazi()">Otkaži</button>
+      <button type="button" class="btn-save" (click)="dodajVikendicu()">Dodaj vikendicu</button>
+    </div>
+  </div>
+</div>

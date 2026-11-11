@@ -1,0 +1,39 @@
+<div class="login-page">
+  <header class="top-header">
+    <h1>🏔️Planinska Vikendica</h1>
+    <button class="btn-home" (click)="goToHomePage()">Početna</button>
+  </header>
+
+  <div class="login-container">
+    <div class="login-card">
+      <h2>Prijavi se</h2>
+      
+      <div class="form-group">
+        <label>Korisničko ime</label>
+        <input 
+          type="text" 
+          placeholder="Unesite korisničko ime" 
+          [(ngModel)]="username" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Lozinka</label>
+        <input 
+          type="password" 
+          placeholder="Unesite lozinku" 
+          [(ngModel)]="password" 
+        />
+      </div>
+
+      @if (this.message != ""){
+        <div class="error-message">{{ message }}</div>
+      }
+      
+      <button class="btn-login" (click)="login()">Uloguj se</button>
+      <p class="forgot-password" (click)="promenaLozinke()">
+        Zaboravili ste lozinku?
+      </p>
+    </div>
+  </div>
+</div>

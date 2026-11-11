@@ -1,0 +1,69 @@
+<div class="admin-zahtevi-page">
+  <h2>Zahtevi za registraciju</h2>
+
+  <div *ngIf="naCekanjuKorisnici.length === 0" class="empty-state">
+    <p>Nema zahteva na čekanju.</p>
+  </div>
+
+  <div *ngIf="naCekanjuKorisnici.length > 0" class="zahtevi-grid">
+    <div *ngFor="let korisnik of naCekanjuKorisnici" class="zahtev-card">
+      <div class="card-header">
+        <h3>{{ korisnik.ime }} {{ korisnik.prezime }}</h3>
+        <span class="tip-badge">{{ korisnik.tip === 'T' ? 'Turista' : 'Vlasnik' }}</span>
+      </div>
+
+      <div class="card-body">
+        <div class="info-row">
+          <span class="label">Korisničko ime:</span>
+          <span class="value">{{ korisnik.korisnicko_ime }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="label">Email:</span>
+          <span class="value">{{ korisnik.email }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="label">Telefon:</span>
+          <span class="value">{{ korisnik.kontakt_telefon }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="label">Adresa:</span>
+          <span class="value">{{ korisnik.adresa }}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="label">Pol:</span>
+          <span class="value">{{ korisnik.pol === 'M' ? 'Muški' : 'Ženski' }}</span>
+        </div>
+      </div>
+
+      <div *ngIf="korisnik.prikazOdbijanje" class="odbijanje-section">
+        <label>Razlog odbijanja</label>
+        <textarea
+          [(ngModel)]="korisnik.razlogOdbijanja"
+          class="form-control"
+          placeholder="Unesite razlog odbijanja..."
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="card-actions">
+        <button *ngIf="!korisnik.prikazOdbijanje" class="btn-accept" (click)="prihvati(korisnik._id)">
+          Prihvati
+        </button>
+        <button *ngIf="!korisnik.prikazOdbijanje" class="btn-reject" (click)="prikaziOdbijanje(korisnik)">
+          Odbij
+        </button>
+
+        <button *ngIf="korisnik.prikazOdbijanje" class="btn-cancel" (click)="otkazi(korisnik)">
+          Otkaži
+        </button>
+        <button *ngIf="korisnik.prikazOdbijanje" class="btn-confirm-reject" (click)="odbij(korisnik._id, korisnik.razlogOdbijanja)">
+          Potvrdi odbijanje
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

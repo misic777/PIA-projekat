@@ -1,0 +1,149 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  color: #222;
+  box-sizing: border-box;
+}
+
+/* header */
+header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+header .imePrezime {
+  font-weight: 700;
+  font-size: 18px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header .logout {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+header .logout:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* main layout */
+.layout {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0; /* important for children scroll */
+  background: #f5f7fb;
+}
+
+/* sidebar */
+.sidebar {
+  width: 220px;
+  min-width: 160px;
+  max-width: 280px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px 16px;
+  border-right: 1px solid rgba(0, 0, 0, 0.04);
+  padding: 18px 12px;
+  margin-top: 10px;
+  box-shadow: 2px 0 8px rgba(16, 24, 40, 0.02);
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.sidebar nav button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  margin: 6px 0;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  /* color: #1f2937; */
+  color: white;
+  transition: background-color 0.15s ease, transform 0.06s ease;
+}
+
+.sidebar nav button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.sidebar nav button:active {
+  transform: translateY(0);
+}
+
+/* optional highlight for active button if you set a class */
+.sidebar nav button.active {
+  background: #2563eb;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.12);
+}
+
+/* main content area (router outlet target) */
+.content {
+  flex: 1 1 auto;
+  padding: 20px;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+/* ensure inner pages can use full height */
+.content > * {
+  min-height: calc(100vh - 64px - 24px);
+}
+
+/* responsive: collapse sidebar on small screens */
+@media (max-width: 760px) {
+  header {
+    padding: 0 16px;
+  }
+
+  header .imePrezime {
+    font-size: 16px;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  .sidebar nav button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 8px 12px;
+  }
+  .content > * {
+    min-height: calc(100vh - 64px - 56px);
+  }
+}

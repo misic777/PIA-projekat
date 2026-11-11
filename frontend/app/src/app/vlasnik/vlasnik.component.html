@@ -1,0 +1,21 @@
+<header>
+    👤{{ulogovan.ime}} {{ulogovan.prezime}}
+    <button (click)="logout()" class="logout">Izloguj se</button>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav>
+      <button (click)="navigateTo('profil')">👤Profil</button> <br>
+      <button (click)="navigateTo('rezervacije')">📅Rezervacije</button> <br>
+      <button (click)="navigateTo('mojeVikendice')">🏡Moje vikendice</button> <br>
+      <button (click)="navigateTo('statistika')">📊Statistika</button> <br>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+

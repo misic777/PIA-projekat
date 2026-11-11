@@ -1,0 +1,48 @@
+<div class="admin-layout">
+  <!-- Header -->
+  <header class="top-header">
+    <div class="header-left">
+      <h1>Admin Panel</h1>
+    </div>
+    <div class="header-right">
+      <span class="user-info">
+        <span class="user-icon">👤</span>
+        {{ ulogovanAdmin.ime }} {{ ulogovanAdmin.prezime }}
+      </span>
+      <button (click)="logout()" class="btn-logout">Odjavi se</button>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <button 
+          (click)="navigateTo('admin/listaKorisnika')" 
+          class="nav-button"
+          routerLinkActive="active"
+        >
+          <span class="nav-icon">👥</span>
+          <span class="nav-text">Korisnici</span>
+        </button>
+
+        <button 
+          (click)="navigateTo('admin/zahtevi')" 
+          class="nav-button"
+          routerLinkActive="active"
+        >
+          <span class="nav-icon">📋</span>
+          <span class="nav-text">Zahtevi</span>
+          <!-- @if (naCekanju.length > 0) {
+            <span class="badge">{{ naCekanju.length }}</span>
+          } -->
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

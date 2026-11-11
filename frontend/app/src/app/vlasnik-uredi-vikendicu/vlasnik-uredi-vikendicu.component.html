@@ -1,0 +1,120 @@
+<div class="forma-container">
+  <div class="forma-header">
+    <h2>Uredi vikendicu</h2>
+  </div>
+
+  <div class="forma-body">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Naziv vikendice*</label>
+        <input 
+          type="text" 
+          [(ngModel)]="vikendicaZaIzmenu.naziv" 
+          placeholder="Npr. Vila Sunce"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Mesto*</label>
+        <input 
+          type="text" 
+          [(ngModel)]="vikendicaZaIzmenu.mesto" 
+          placeholder="Npr. Zlatibor"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Telefon*</label>
+        <input 
+          type="tel" 
+          [(ngModel)]="vikendicaZaIzmenu.telefon" 
+          placeholder="Npr. +381 11 123 4567"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Broj gostiju</label>
+        <input 
+          type="number" 
+          [(ngModel)]="vikendicaZaIzmenu.maksGosti" 
+          placeholder="Npr. 6"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Cena leto (RSD/noć)*</label>
+        <input 
+          type="number" 
+          [(ngModel)]="vikendicaZaIzmenu.cena_leto" 
+          placeholder="5000"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>Cena zima (RSD/noć)*</label>
+        <input 
+          type="number" 
+          [(ngModel)]="vikendicaZaIzmenu.cena_zima" 
+          placeholder="7000"
+        >
+      </div>
+
+      <div class="form-group full-width">
+        <label>Opis</label>
+        <textarea 
+          [(ngModel)]="vikendicaZaIzmenu.opis" 
+          rows="3" 
+          placeholder="Opišite vikendicu..."
+        ></textarea>
+      </div>
+
+      <div class="form-group full-width">
+        <label>Usluge</label>
+        <textarea 
+          [(ngModel)]="vikendicaZaIzmenu.usluge" 
+          rows="4" 
+          placeholder="Npr. WiFi, klima, parking, đakuzi..."
+        ></textarea>
+      </div>
+
+      <!-- Postojeće slike -->
+      <div class="form-group full-width" *ngIf="postojeceSlike.length > 0">
+        <label>Trenutne slike</label>
+        <div class="preview-container">
+          <div class="preview-item" *ngFor="let slika of postojeceSlike; let i = index">
+            <img [src]="'http://localhost:4000/vikendice/' + vikendicaZaIzmenu.naziv + '/' + slika" alt="Postojeća slika">
+            <button type="button" class="btn-remove-img" (click)="ukloniPostojecuSliku(i)">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nove slike -->
+      <div class="form-group full-width">
+        <label>Dodaj nove slike (maksimalno {{ 5 - postojeceSlike.length }} {{ 5 - postojeceSlike.length === 1 ? 'slika' : 'slike' }})</label>
+        <input 
+          type="file" 
+          (change)="onSlikeSelected($event)" 
+          accept="image/jpeg,image/png" 
+          multiple
+          [disabled]="postojeceSlike.length >= 5"
+        >
+        
+        <div class="preview-container" *ngIf="previewSlike.length > 0">
+          <div class="preview-item" *ngFor="let preview of previewSlike; let i = index">
+            <img [src]="preview" alt="Nova slika">
+            <button type="button" class="btn-remove-img" (click)="ukloniNovuSliku(i)">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="message">
+      {{ message }}
+    </div>
+
+    <div class="forma-actions">
+      <button type="button" class="btn-cancel" (click)="otkazi()">Otkaži</button>
+      <button type="button" class="btn-save" (click)="azurirajVikendicu()">Sačuvaj izmene</button>
+    </div>
+  </div>
+</div>

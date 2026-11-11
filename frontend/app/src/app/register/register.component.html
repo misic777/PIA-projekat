@@ -1,0 +1,106 @@
+<div class="register-page">
+  <header class="top-header">
+    <h1>🏔️Planinska Vikendica</h1>
+    <button class="btn-back" (click)="goBack()">Početna</button>
+  </header>
+
+  <div class="register-container">
+    <div class="register-card">
+      <h2>Kreiraj nalog</h2>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Korisničko ime *</label>
+          <input type="text" placeholder="Korisničko ime" [(ngModel)]="korisnik.korisnicko_ime" />
+        </div>
+
+        <div class="form-group">
+          <label>Lozinka *</label>
+          <input type="password" placeholder="Lozinka" [(ngModel)]="korisnik.lozinka" />
+        </div>
+
+        <div class="form-group">
+          <label>Ime *</label>
+          <input type="text" placeholder="Ime" [(ngModel)]="korisnik.ime" />
+        </div>
+
+        <div class="form-group">
+          <label>Prezime *</label>
+          <input type="text" placeholder="Prezime" [(ngModel)]="korisnik.prezime" />
+        </div>
+
+        <div class="form-group">
+          <label>Pol *</label>
+          <select [(ngModel)]="korisnik.pol">
+            <option value="" disabled hidden>Odaberite pol</option>
+            <option value="M">Muški</option>
+            <option value="Z">Ženski</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" placeholder="Email" [(ngModel)]="korisnik.email" />
+        </div>
+
+        <div class="form-group">
+          <label>Adresa *</label>
+          <input type="text" placeholder="Adresa" [(ngModel)]="korisnik.adresa" />
+        </div>
+
+        <div class="form-group">
+          <label>Kontakt telefon *</label>
+          <input type="tel" placeholder="Kontakt telefon" [(ngModel)]="korisnik.kontakt_telefon" />
+        </div>
+
+        <div class="form-group">
+          <label>Tip korisnika *</label>
+          <select [(ngModel)]="korisnik.tip">
+            <option value="" disabled hidden>Odaberite tip</option>
+            <option value="turista">Turista</option>
+            <option value="vlasnik">Vlasnik</option>
+          </select>
+        </div>
+        @if(korisnik.tip === 'turista') {
+          <div class="form-group">
+          <label>Broj kreditne kartice *</label>
+          <div class="card-input-container">
+            <input 
+              type="text" 
+              class="card-number" 
+              placeholder="Broj kartice" 
+              [(ngModel)]="korisnik.broj_kreditne_kartice" 
+              (input)="checkCardType()" 
+            />
+            @if (tipKartice) {
+              <img [src]="'/kartice/' + tipKartice + '.png'" class="card-icon" alt="{{tipKartice}}">
+            }
+          </div>
+        </div>
+      }
+
+
+        <div class="form-group full-width">
+          <label>Profilna slika</label>
+          @if (dodatFajl == null) {
+            <label class="file-label">
+              <span>📷 Dodaj profilnu sliku</span>
+              <input type="file" (change)="onFileSelected($event)" accept="image/jpeg,image/png" />
+            </label>
+          } @else {
+            <div class="image-preview">
+              <img [src]="previewSlike" alt="Preview" />
+              <button class="btn-remove-image" (click)="removeSelectedFile()">✕ Ukloni sliku</button>
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (message) {
+        <div class="error-message">{{ message }}</div>
+      }
+
+      <button class="btn-register" (click)="register()">Registruj se</button>
+    </div>
+  </div>
+</div>

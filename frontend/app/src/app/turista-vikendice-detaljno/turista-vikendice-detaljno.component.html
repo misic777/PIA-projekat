@@ -1,0 +1,304 @@
+<div class="vikendica-detaljno-page">
+  <div class="back-header">
+    <button (click)="navigateTo('turista/vikendice')" class="btn-back">
+      ← Nazad na vikendice
+    </button>
+  </div>
+
+  <div class="vikendica-container">
+    <!-- Header sekcija -->
+    <div class="vikendica-header">
+      <h1>{{ vikendica.naziv }}</h1>
+      <p class="location">📍 {{ vikendica.mesto }}</p>
+      @if (this.prosecnaOcena > 0) {
+        <div class="rating">
+          <div class="review-rating">
+            @for (star of [1,2,3,4,5]; track star) {
+              <span [class.filled]="star <= this.prosecnaOcena">⭐</span>
+            }
+          </div>
+          <span class="review-count">({{ vikendica.ocene.length }} recenzija)</span>
+        </div>
+      }
+    </div>
+
+    <!-- Galerija slika -->
+    <section class="image-gallery">
+      @for (slika of vikendica.slike; track slika) {
+        <div class="gallery-item">
+          <img 
+            [src]="'http://localhost:4000/vikendice/' + vikendica.naziv + '/' + slika" 
+            [alt]="vikendica.naziv"
+          >
+        </div>
+      }
+    </section>
+
+    <!-- Info sekcija -->
+    <div class="vikendica-details">
+      <div class="details-main">
+        <div class="info-card">
+          <h2>Opis</h2>
+          <p>{{ vikendica.opis }}</p>
+        </div>
+
+        <div class="info-card">
+          <h2>Usluge</h2>
+          <div class="services-list">
+            @for (usluga of vikendica.usluge.split(','); track usluga) {
+              <span class="service-tag">{{ usluga.trim() }}</span>
+            }
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h2>Detalji</h2>
+          <div class="detail-items">
+            <div class="detail-row">
+              <span class="detail-label">👥 Maksimalno gostiju:</span>
+              <span class="detail-value">{{ vikendica.maksGosti }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">📞 Telefon:</span>
+              <span class="detail-value">{{ vikendica.telefon }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">☀️ Cena leto (maj-avg):</span>
+              <span class="detail-value price-highlight">{{ vikendica.cena_leto }} RSD</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">❄️ Cena zima (sep-apr):</span>
+              <span class="detail-value price-highlight">{{ vikendica.cena_zima }} RSD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="details-sidebar">
+        <div class="booking-card">
+          <h3>Rezerviši odmor</h3>
+        
+          <button (click)="rezervisiVikendicu()" class="btn-reserve">
+            Rezerviši sada
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recenzije sekcija -->
+    <section class="reviews-section">
+      <div class="reviews-header">
+        <h2>Recenzije gostiju</h2>
+        @if (vikendica.ocene.length > 0) {
+          <div class="overall-rating">
+            <span class="rating-number">{{ prosecnaOcena }}</span>
+            
+          </div>
+        }
+      </div>
+
+      @if (vikendica.ocene.length === 0) {
+        <div class="no-reviews">
+          <p>Još nema recenzija za ovu vikendicu.</p>
+          <p class="sub-text">Budite prvi koji će ostaviti utisak!</p>
+        </div>
+      } @else {
+        <div class="reviews-list">
+          @for (recenzija of vikendica.ocene; track recenzija) {
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <div class="reviewer-details">
+                    <h4>{{ recenzija.turista }}</h4>
+                    <p class="review-date">{{ recenzija.datum | date: 'dd.MM.yyyy' }}</p>
+                  </div>
+                </div>
+                <div class="review-rating">
+                  @for (star of [1,2,3,4,5]; track star) {
+                    <span [class.filled]="star <= recenzija.ocena">⭐</span>
+                  }
+                </div>
+              </div>
+              <div class="review-content">
+                <p>{{ recenzija.komentar }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  </div>
+
+  <!-- REZERVACIONA FORMA - STEPS -->
+  @if (prikaziFormu) {
+    <div class="modal-overlay" (click)="zatvoriFormu()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Rezervacija - {{ vikendica.naziv }}</h2>
+          <button class="btn-close" (click)="zatvoriFormu()">✕</button>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="steps-progress">
+          <div class="step" [class.active]="trenutniKorak >= 1" [class.completed]="trenutniKorak > 1">
+            <div class="step-number">1</div>
+            <div class="step-label">Podaci o boravku</div>
+          </div>
+          <div class="step-line" [class.completed]="trenutniKorak > 1"></div>
+          <div class="step" [class.active]="trenutniKorak >= 2">
+            <div class="step-number">2</div>
+            <div class="step-label">Plaćanje</div>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <!-- KORAK 1: Podaci o rezervaciji -->
+          @if (trenutniKorak === 1) {
+            <div class="step-content">
+              <h3>Unesite podatke o boravku</h3>
+
+              <div class="form-group">
+                <label>Datum početka *</label>
+                <input 
+                  type="datetime-local" 
+                  [(ngModel)]="datumPocetka"
+                  [min]="minDatum"
+                  class="form-control"
+                  required
+                >
+              </div>
+
+              <div class="form-group">
+                <label>Datum kraja *</label>
+                <input 
+                  type="datetime-local" 
+                  [(ngModel)]="datumKraja"
+                  [min]="datumPocetka || minDatum"
+                  class="form-control"
+                  required
+                >
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Broj odraslih *</label>
+                  <input 
+                    type="number" 
+                    [(ngModel)]="brojOdraslih"
+                    min="1"
+                    [max]="vikendica.maksGosti"
+                    class="form-control"
+                    required
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label>Broj dece</label>
+                  <input 
+                    type="number" 
+                    [(ngModel)]="brojDece"
+                    min="0"
+                    [max]="vikendica.maksGosti - brojOdraslih"
+                    class="form-control"
+                  >
+                </div>
+              </div>
+
+              <div class="info-box">
+                <p><strong>Maksimalan broj gostiju:</strong> {{ vikendica.maksGosti }}</p>
+                <p><strong>Ukupno gostiju:</strong> {{ brojOdraslih + brojDece }}</p>
+              </div>
+
+              @if (greska) {
+                <div class="error-message">{{ greska }}</div>
+              }
+            </div>
+          }
+
+          <!-- KORAK 2: Plaćanje i potvrda -->
+          @if (trenutniKorak === 2) {
+            <div class="step-content">
+              <h3>Pregled i plaćanje</h3>
+
+              <div class="summary-card">
+                <h4>Detalji rezervacije</h4>
+                <div class="summary-row">
+                  <span>Vikendica:</span>
+                  <strong>{{ vikendica.naziv }}</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Mesto:</span>
+                  <strong>{{ vikendica.mesto }}</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Datum početka:</span>
+                  <strong>{{ datumPocetka | date: 'dd.MM.yyyy' }}</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Datum kraja:</span>
+                  <strong>{{ datumKraja | date: 'dd.MM.yyyy' }}</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Broj noćenja:</span>
+                  <strong>{{ brojNocenja }}</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Broj odraslih:</span>
+                  <strong>{{ brojOdraslih }}</strong>
+                </div>
+                <div class="summary-row">
+                  <span>Broj dece:</span>
+                  <strong>{{ brojDece }}</strong>
+                </div>
+                <div class="summary-row total">
+                  <span>Ukupna cena:</span>
+                  <strong class="price-total">{{ ukupnaCena }} RSD</strong>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Broj kreditne kartice *</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="karticaZaPlacanje"
+                  placeholder="1234 5678 9012 3456"
+                  maxlength="19"
+                  class="form-control"
+                  required
+                >
+                <small>Unesite 16 cifara bez razmaka</small>
+              </div>
+
+              <div class="form-group">
+                <label>Specijalni zahtevi (opciono)</label>
+                <textarea 
+                  [(ngModel)]="specijalniZahtevi"
+                  placeholder="Unesite dodatne zahteve ili napomene..."
+                  maxlength="500"
+                  rows="4"
+                  class="form-control"
+                ></textarea>
+                <small>{{ specijalniZahtevi.length }}/500 karaktera</small>
+              </div>
+
+              @if (greska) {
+                <div class="error-message">{{ greska }}</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="modal-footer">
+          @if (trenutniKorak === 1) {
+            <button class="btn-secondary" (click)="zatvoriFormu()">Otkaži</button>
+            <button class="btn-primary" (click)="sledeci()">Dalje →</button>
+          }
+          @if (trenutniKorak === 2) {
+            <button class="btn-secondary" (click)="nazad()">← Nazad</button>
+            <button class="btn-primary" (click)="potvrdiRezervaciju()">Potvrdi rezervaciju</button>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>

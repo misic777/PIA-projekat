@@ -1,0 +1,64 @@
+<h2>Rezervacije</h2>
+
+@if (mojeRezervacije.length === 0) {
+  <div class="empty-state">
+    <p>Nema neobrađenih rezervacija.</p>
+  </div>
+}
+
+@for (item of mojeRezervacije; track $index) {
+  <div class="rezervacija-card">
+    <div class="card-header">
+      <h3>{{ item.vikendicaId?.naziv }}</h3>
+      <!-- <span class="status-badge">{{ item.status }}</span> -->
+    </div>
+
+    <div class="card-body">
+      <div class="info-row">
+        <span class="label">Mesto:</span>
+        <span class="value">{{ item.vikendicaId?.mesto }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Turista:</span>
+        <span class="value">{{ item.turistaId?.ime }} {{ item.turistaId?.prezime }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Email:</span>
+        <span class="value">{{ item.turistaId?.email }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Datum početka:</span>
+        <span class="value">{{ item.datumPocetka | date: 'dd.MM.yyyy.' }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Datum kraja:</span>
+        <span class="value">{{ item.datumKraja | date: 'dd.MM.yyyy.' }}</span>
+      </div>
+    </div>
+
+    @if (item.prikazOdbijanje) {
+      <div class="odbijanje-section">
+        <label>Razlog odbijanja*</label>
+        <textarea
+          [(ngModel)]="item.razlogOdbijanja"
+          placeholder="Unesite razlog odbijanja..."
+          rows="3"
+        ></textarea>
+      </div>
+    }
+
+    <div class="card-actions">
+      @if (!item.prikazOdbijanje) {
+        <button class="btn-accept" (click)="potvrdi(item)">Potvrdi</button>
+        <button class="btn-reject" (click)="prikaziOdbijanje(item)">Odbij</button>
+      } @else {
+        <button class="btn-cancel" (click)="otkazi(item)">Otkaži</button>
+        <button class="btn-confirm-reject" (click)="odbij(item)">Potvrdi odbijanje</button>
+      }
+    </div>
+  </div>
+}

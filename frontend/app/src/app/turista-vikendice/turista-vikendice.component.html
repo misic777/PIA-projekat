@@ -1,0 +1,72 @@
+<div class="turista-vikendice-page">
+  <h2>Dostupne vikendice</h2>
+
+  <!-- Search Section -->
+  <section class="search-section">
+    <div class="search-controls">
+      <div class="search-inputs">
+        <input 
+          type="search" 
+          class="search-input" 
+          placeholder="🔍 Pretraži po nazivu" 
+          [(ngModel)]="pretragaNaziv" 
+          (input)="pretraziVikendice()"
+        >
+        <input 
+          type="search" 
+          class="search-input" 
+          placeholder="📍 Pretraži po lokaciji" 
+          [(ngModel)]="pretragaMesto" 
+          (input)="pretraziVikendice()"
+        >
+      </div>
+      <div class="sort-control">
+        <label>Sortiraj:</label>
+        <select [(ngModel)]="sortiranje" (change)="sortirajVikendice()">
+          <option value="naziv-asc">Naziv (A-Z)</option>
+          <option value="naziv-desc">Naziv (Z-A)</option>
+          <option value="mesto-asc">Mesto (A-Z)</option>
+          <option value="mesto-desc">Mesto (Z-A)</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vikendice Grid -->
+  <section class="vikendice-section">
+    @if (prikazaneVikendice.length === 0) {
+      <div class="empty-state">
+        <p>Nema vikendica koje odgovaraju pretrazi.</p>
+      </div>
+    } @else {
+      <div class="vikendice-grid">
+        @for (vikendica of prikazaneVikendice; track vikendica._id) {
+          <div class="vikendica-card" (click)="goToDetails(vikendica)">
+            <div class="vikendica-image-wrapper">
+              <img 
+                class="vikendica-image" 
+                [src]="'http://localhost:4000/vikendice/' + vikendica.naziv + '/' + vikendica.slike[0]" 
+                [alt]="vikendica.naziv"
+              >
+            </div>
+            <div class="vikendica-info">
+              <h3>{{ vikendica.naziv }}</h3>
+              <p class="location">📍 {{ vikendica.mesto }}</p>
+              <p class="description">
+                 {{ vikendica.opis }} 
+              </p>
+              <div class="details">
+                <span class="detail-item"> {{vikendica.usluge}}</span>
+              </div>
+              <div class="price-range">
+                <span class="price-item">☀️ {{ vikendica.cena_leto }} RSD</span>
+                <span class="price-separator">|</span>
+                <span class="price-item">❄️ {{ vikendica.cena_zima }} RSD</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+</div>
